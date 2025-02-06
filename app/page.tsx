@@ -1,101 +1,150 @@
-import Image from "next/image";
+"use client";
+import { useState } from "react";
+import { motion } from "framer-motion";
+import Menu from "./components/menu";
+import PrincipalContainer from "./components/principalcontainer";
+import PieChart from "./components/PieChart";
+import BillsLayout from "./layouts/BillsLayout";
+import IncomeLayout from "./layouts/IncomeLayout";
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [selectedOption, setSelectedOption] = useState("gastos");
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+  const data = [
+    { name: "Ingresos", value: 15000 },
+    { name: "Gastos", value: 9000 },
+  ];
+
+  const handleOptionChange = (option) => {
+    setSelectedOption(option);
+  };
+
+  return (
+    <>
+      <Menu />
+      <PrincipalContainer bgColor="bg-gray-100" padding="p-4">
+        <div className="flex justify-center items-center text-gray-900">
+          <motion.div
+            className="flex flex-col md:flex-row justify-center items-center w-full max-w-4xl space-y-4 md:space-y-0 md:space-x-6"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+            {/* Gráfico de torta */}
+            <motion.div
+              className="bg-white p-6 rounded-lg shadow-md w-full md:w-1/2 flex justify-center"
+              whileHover={{ scale: 1.05 }}
+            >
+              <PieChart />
+            </motion.div>
+
+            {/* Resumen Financiero */}
+            <motion.div
+              className="bg-white p-6 rounded-lg shadow-md w-full md:w-1/2"
+              whileHover={{ scale: 1.05 }}
+            >
+              <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">
+                Resumen Financiero
+              </h2>
+              <div className="space-y-4">
+                <motion.div
+                  className="bg-green-200 p-4 rounded-lg text-center"
+                  whileHover={{ scale: 1.05 }}
+                >
+                  <p className="text-lg font-semibold text-green-800">
+                    Ingresos
+                  </p>
+                  <p className="text-2xl font-bold text-green-900">
+                    ${data[0].value.toLocaleString()}
+                  </p>
+                </motion.div>
+                <motion.div
+                  className="bg-red-200 p-4 rounded-lg text-center"
+                  whileHover={{ scale: 1.05 }}
+                >
+                  <p className="text-lg font-semibold text-red-800">Gastos</p>
+                  <p className="text-2xl font-bold text-red-900">
+                    ${data[1].value.toLocaleString()}
+                  </p>
+                </motion.div>
+              </div>
+            </motion.div>
+          </motion.div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+      </PrincipalContainer>
+
+      {/* Botones de selección con animación */}
+      <motion.div
+        className="flex justify-center mt-6"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+      >
+        {/* Botones de selección */}
+        <div className="flex justify-center mt-6">
+          <div className="bg-slate-100 rounded-full p-2 flex space-x-4 shadow-md">
+            {["gastos", "ingresos"].map((option) => (
+              <button
+                key={option}
+                type="button"
+                className={`px-6 py-2 rounded-full text-lg font-medium transition duration-300 flex items-center space-x-2 ${
+                  selectedOption === option
+                    ? "bg-blue-500 text-white"
+                    : "text-blue-600 hover:bg-blue-300 hover:text-white"
+                }`}
+                onClick={() => handleOptionChange(option)}
+              >
+                {option === "gastos" ? (
+                  <>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="size-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"
+                      />
+                    </svg>
+                    <span>
+                      {option.charAt(0).toUpperCase() + option.slice(1)}
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <span>
+                      {option.charAt(0).toUpperCase() + option.slice(1)}
+                    </span>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="size-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 0 0-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 0 1-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 0 0 3 15h-.75M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm3 0h.008v.008H18V10.5Zm-12 0h.008v.008H6V10.5Z"
+                      />
+                    </svg>
+                  </>
+                )}
+              </button>
+            ))}
+          </div>
+        </div>
+      </motion.div>
+
+      {/* Tarjeta de detalles con animación */}
+      <PrincipalContainer bgColor="bg-gray-100" padding="p-2">
+        {selectedOption === "gastos" ? <BillsLayout /> : <IncomeLayout />}
+      </PrincipalContainer>
+    </>
   );
 }
